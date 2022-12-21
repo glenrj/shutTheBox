@@ -16,7 +16,6 @@ local function initialize()
 end
 
 function playdate.update()
-    updateBlocks()
     gfx.sprite.update()
     pd.timer.updateTimers()
 end

@@ -4,7 +4,6 @@ import "CoreLibs/sprites"
 import "CoreLibs/timer"
 import "CoreLibs/ui"
 import "CoreLibs/crank"
--- import "CoreLibs/nineslice"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
@@ -16,9 +15,6 @@ local blocks = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
 gridview:setNumberOfRows(1)
 gridview:setNumberOfColumns(#blocks)
 gridview:setCellPadding(2, 2, 2, 2)
-
--- gridview.backgroundImage = gfx.nineSlice.new("images/gridBackground", 7, 7, 18, 18)
--- gridview:setContentInset(5, 5, 5, 5)
 
 local gridViewSprite = gfx.sprite.new()
 gridViewSprite:setCenter(0, 0)
@@ -37,7 +33,7 @@ function gridview:drawCell(section, row, column, selected, x, y, width, height)
     gfx.drawTextInRect(blocks[column], x, y + (height/2) - fontHeight/2 + 2, width, height, nil, nil, kTextAlignment.center)
 end
 
-function updateBlocks()
+function gridViewSprite:update()
     if pd.buttonJustPressed(pd.kButtonLeft) then
         gridview:selectPreviousColumn(true)
     elseif pd.buttonJustPressed(pd.kButtonRight) then
@@ -58,6 +54,4 @@ function updateBlocks()
         gfx.popContext()
         gridViewSprite:setImage(gridviewImage)
     end
-
-    gfx.sprite.update()
 end

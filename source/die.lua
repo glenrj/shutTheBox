@@ -26,7 +26,7 @@ end
 
 function Die:update()
     if pd.buttonJustPressed(pd.kButtonA) then
-        Die:roll()
+        self:roll()
         print("click")
     end
 end
