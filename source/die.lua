@@ -14,7 +14,19 @@ function Die:init(x, y)
 
     self:moveTo(x, y)
     self:add()
+
+    self.value = 1
+end
+
+function Die:roll()
+    local roll = math.random(6)
+    self.value = roll
+    print(self.value)
 end
 
 function Die:update()
+    if pd.buttonJustPressed(pd.kButtonA) then
+        Die:roll()
+        print("click")
+    end
 end
