@@ -8,7 +8,7 @@ import "CoreLibs/crank"
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
-local gridview = pd.ui.gridview.new(32, 48)
+local gridview = pd.ui.gridview.new(32, 58)
 
 local blocks = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
 
@@ -18,7 +18,7 @@ gridview:setCellPadding(2, 2, 2, 2)
 
 local gridViewSprite = gfx.sprite.new()
 gridViewSprite:setCenter(0, 0)
-gridViewSprite:moveTo(32, 8)
+gridViewSprite:moveTo(32, 16)
 gridViewSprite:add()
 
 function gridview:drawCell(section, row, column, selected, x, y, width, height)
