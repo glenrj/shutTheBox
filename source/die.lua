@@ -21,7 +21,7 @@ function Die:init(x, y)
     gfx.sprite.setBackgroundDrawingCallback(
         function(x, y, width, height)
             gfx.pushContext(dieImage)
-                    backgroundImage:draw(0, 0)
+                backgroundImage:draw(x, y)
             gfx.popContext()
         end
     )
@@ -33,7 +33,7 @@ end
 function Die:roll()
     local roll = math.random(6)
     self.value = roll
-    -- print(self.value)
+    print(self.value)
 
     backgroundImage = gfx.image.new("images/pip-" .. self.value)
     self.redrawBackground()
