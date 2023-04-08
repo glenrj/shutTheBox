@@ -4,27 +4,9 @@ local gfx <const> = pd.graphics
 class('Die').extends(gfx.sprite)
 
 function Die:init(x, y)
-    local width = 100
-    local height = 100
-    
-    dieImage = gfx.image.new(width, height)
     self.value = 1
-    
-    gfx.pushContext(dieImage)
-        gfx.drawRoundRect(0, 0, width, height, 4)
-    gfx.popContext()
-    self:setImage(dieImage)
-    
-    backgroundImage = gfx.image.new("images/pip-" .. self.value)
-    assert(backgroundImage)
-
-    gfx.sprite.setBackgroundDrawingCallback(
-        function(x, y, width, height)
-            gfx.pushContext(dieImage)
-                backgroundImage:draw(x, y)
-            gfx.popContext()
-        end
-    )
+    self.enabled = true
+    self:drawDie(self.value)
     
     self:moveTo(x, y)
     self:add()
@@ -34,13 +16,26 @@ function Die:roll()
     local roll = math.random(6)
     self.value = roll
     print(self.value)
+    self:drawDie(self.value)
+    self.enabled = false
+end
 
-    backgroundImage = gfx.image.new("images/pip-" .. self.value)
-    self.redrawBackground()
+function Die:drawDie(value)
+    local width = 100
+    local height = 100
+    local dieImage = gfx.image.new(width, height)
+    gfx.pushContext(dieImage)
+      gfx.drawRoundRect(0, 0, width, height, 4)
+      local backgroundImage = gfx.image.new("images/pip-" .. value)
+      backgroundImage:draw(0, 0) -- Change this x/y to fit it properly
+    gfx.popContext()
+    self:setImage(dieImage)
 end
 
 function Die:update()
-    if pd.buttonJustPressed(pd.kButtonA) then
-        self:roll()
+    if self.enabled then
+        if pd.buttonJustPressed(pd.kButtonA) then
+            self:roll()
+        end
     end
 end
