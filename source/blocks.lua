@@ -1,57 +1,44 @@
-import "CoreLibs/object"
+-- import "CoreLibs/object"
 import "CoreLibs/graphics"
-import "CoreLibs/sprites"
-import "CoreLibs/timer"
-import "CoreLibs/ui"
-import "CoreLibs/crank"
+-- import "CoreLibs/sprites"
+-- import "CoreLibs/timer"
+-- import "CoreLibs/ui"
+-- import "CoreLibs/crank"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
-local gridview = pd.ui.gridview.new(32, 58)
+class('Block').extends(gfx.sprite)
 
-local blocks = {"1", "2", "3", "4", "5", "6", "7", "8", "9"}
-
-gridview:setNumberOfRows(1)
-gridview:setNumberOfColumns(#blocks)
-gridview:setCellPadding(2, 2, 2, 2)
-
-local gridViewSprite = gfx.sprite.new()
-gridViewSprite:setCenter(0, 0)
-gridViewSprite:moveTo(32, 16)
-gridViewSprite:add()
-
-function gridview:drawCell(section, row, column, selected, x, y, width, height)
-    if selected then
-        gfx.fillRoundRect(x, y, width, height, 4)
-        gfx.setImageDrawMode(gfx.kDrawModeFillWhite)
-    else
-        gfx.drawRoundRect(x, y, width, height, 4)
-        gfx.setImageDrawMode(gfx.kDrawModeCopy)
-    end
-    local fontHeight = gfx.getSystemFont():getHeight()
-    gfx.drawTextInRect(blocks[column], x, y + (height/2) - fontHeight/2 + 2, width, height, nil, nil, kTextAlignment.center)
+function Block:init(x, y, w, h, num)
+    self.value = num
+    self.selected = false
+    self.available = true
+    
+    self:drawBlock(w, h, num)
+    self:moveTo(x, y)
+    self:add()
 end
 
-function gridViewSprite:update()
-    if pd.buttonJustPressed(pd.kButtonLeft) then
-        gridview:selectPreviousColumn(true)
-    elseif pd.buttonJustPressed(pd.kButtonRight) then
-        gridview:selectNextColumn(true)
-    end
+function Block:drawBlock(w, h, num)
+    local blockImage = gfx.image.new(w, h)
+    gfx.pushContext(blockImage)
+        gfx.drawRoundRect(0, 0, w, h, 4)
+        gfx.drawTextAligned(num, w/2, h/2, kTextAlignment.center)
+    gfx.popContext()
+    self:setImage(blockImage)
 
-    local crankTicks = pd.getCrankTicks(2)
-    if crankTicks == 1 then
-        gridview:selectNextColumn(true)
-    elseif crankTicks == -1 then
-        gridview:selectPreviousColumn(true)
-    end
+    print("block " .. num .. " drawn.")
+end
 
-    if gridview.needsDisplay then
-        local gridviewImage = gfx.image.new(336, 64)
-        gfx.pushContext(gridviewImage)
-            gridview:drawInRect(0, 0, 336, 64)
-        gfx.popContext()
-        gridViewSprite:setImage(gridviewImage)
+function generateBlocks(x, y, blocks)
+    local totalWidth =  360
+    local blockWidth = (totalWidth / blocks)
+    local blockHeight = 80
+
+    for i = 0, blocks - 1, 1 do
+        local blockX = x + (i * blockWidth) + (i * 2)
+        local blockNum = i + 1
+        Block(blockX, y, blockWidth, blockHeight, blockNum)
     end
 end

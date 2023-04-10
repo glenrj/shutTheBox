@@ -5,24 +5,17 @@ import "CoreLibs/timer"
 
 import "blocks"
 import "die"
+import "scoring"
 
 local pd <const> = playdate
 local gfx <const> = pd.graphics
 
-dieA = Die(70, 160)
-dieB = Die(180, 160)
+dieA = Die(70, 180)
+dieB = Die(180, 180)
+
+generateBlocks(30, 50, 12)
 
 local function initialize()
-end
-
-local function addRolls(a, b)
-    local value1 = a.value
-    local value2 = b.value
-    local total
-    
-    total = value1 + value2
-    print("roll total:" .. total)
-    return total
 end
 
 function playdate.update()
