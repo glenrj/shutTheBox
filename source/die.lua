@@ -36,6 +36,7 @@ function Die:update()
     if self.enabled then
         if pd.buttonJustPressed(pd.kButtonA) then
             self:roll()
+            blockStatus[2]="unavailable"
         end
     end
 end

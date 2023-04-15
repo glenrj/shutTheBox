@@ -12,7 +12,6 @@ local gfx <const> = pd.graphics
 
 dieA = Die(70, 180)
 dieB = Die(180, 180)
-
 generateBlocks(30, 50, 9)
 
 local function initialize()
