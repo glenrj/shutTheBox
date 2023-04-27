@@ -15,7 +15,6 @@ end
 function Die:roll()
     local roll = math.random(6)
     self.value = roll
-    print(self.value)
     self:drawDie(self.value)
     self.enabled = false
 end
@@ -27,7 +26,7 @@ function Die:drawDie(value)
     gfx.pushContext(dieImage)
       gfx.drawRoundRect(0, 0, width, height, 4)
       local backgroundImage = gfx.image.new("images/pip-" .. value)
-      backgroundImage:draw(0, 0) -- Change this x/y to fit it properly
+      backgroundImage:draw(0, 0)
     gfx.popContext()
     self:setImage(dieImage)
 end
@@ -36,7 +35,8 @@ function Die:update()
     if self.enabled then
         if pd.buttonJustPressed(pd.kButtonA) then
             self:roll()
-            blockStatus[2]="unavailable"
+            --testing block status listener
+            blockStatus[4] = "unavailable"
         end
     end
 end
